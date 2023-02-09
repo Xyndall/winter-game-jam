@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour
     public GameObject fpsCamera = null;
 
     public CharacterController controller;
-    //public Animator animator;
+    public Animator animator;
 
     Vector3 DefaultCharacterSize = new Vector3(1,1,1);
     public static float CharacterSize = 1;
@@ -16,9 +16,6 @@ public class Movement : MonoBehaviour
     public float runSpeed = 20;
     public float normalSpeed = 12;
     public float gravity = -9.8f;
-    
-
-    bool sprinting = false;
 
     public Vector3 velocity;
 
@@ -35,11 +32,12 @@ public class Movement : MonoBehaviour
     void Start()
     {
         gameObject.transform.localScale = DefaultCharacterSize;
-        //animator.GetComponent<Animator>();
+        animator.GetComponent<Animator>();
     }
 
     void Grow(float amount)
     {
+        fpsCamera.transform.position += new Vector3(0, 0, -0.02f);
         CharacterSize += amount;
         gameObject.transform.localScale += new Vector3(amount,amount,amount);
     }
@@ -58,9 +56,13 @@ public class Movement : MonoBehaviour
 
         isGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, GroundMask);
 
-        if(isGrounded && velocity.y < 0)
+        if(isGrounded) 
+            animator.SetBool("Grounded", true);
+
+        if (isGrounded && velocity.y < 0)
         {
             velocity.y = 0f;
+            
         }
 
         float x = Input.GetAxis("Horizontal");
@@ -77,30 +79,30 @@ public class Movement : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
 
-        //if(z > 0 || z < 0)
-        //{
-        //    animator.SetBool("isMoving", true);
+        if (z > 0 || z < 0)
+        {
+            animator.SetBool("isMoving", true);
 
-        //}
-        //else
-        //{
-        //    animator.SetBool("isMoving", false);
-        //}
-
-        //animator.SetFloat("MovingFloat", z);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
+        
+        animator.SetFloat("MovingFloat", z);
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            
+            animator.SetTrigger("Jump");
         }
 
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
 
-                sprinting = true;
-           // animator.SetBool("Sprint", true);
+                
+                animator.SetBool("Sprint", true);
                 fpsCamera.GetComponentInChildren<Camera>().fieldOfView = Mathf.Lerp(80, 85, 1);
                 speed = runSpeed;
   
@@ -108,8 +110,8 @@ public class Movement : MonoBehaviour
         else
         {
             
-            sprinting = false;
-            //animator.SetBool("Sprint", false);
+            
+            animator.SetBool("Sprint", false);
             speed = normalSpeed;
         }
     }
