@@ -47,6 +47,12 @@ public class CameraMovement : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Confined;
         }
+
+        //Press this button to confine the Cursor within the screen
+        if (GUI.Button(new Rect(125, 0, 100, 50), "Unlock cursor: Escape"))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
 }

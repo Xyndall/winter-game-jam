@@ -8,6 +8,9 @@ public class Movement : MonoBehaviour
 
     public CharacterController controller;
 
+    Vector3 DefaultCharacterSize = new Vector3(1,1,1);
+    public static float CharacterSize = 1;
+
     public float speed = 12;
     public float runSpeed = 20;
     public float normalSpeed = 12;
@@ -26,10 +29,27 @@ public class Movement : MonoBehaviour
     public bool isGrounded;
     public float jumpHeight = 2f;
 
+    void Start()
+    {
+        gameObject.transform.localScale = DefaultCharacterSize;
+    }
+
+    void Grow(float amount)
+    {
+        CharacterSize += amount;
+        gameObject.transform.localScale += new Vector3(amount,amount,amount);
+    }
+
+    void Shrink(){
+
+    }
 
     // Update is called once per frame
     void Update()
     {
+
+        
+
         fpsCamera.GetComponentInChildren<Camera>().fieldOfView = 80;
 
         isGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, GroundMask);
@@ -78,6 +98,13 @@ public class Movement : MonoBehaviour
         }
     }
 
-
+    private void OnTriggerEnter(Collider other) {
+        if(other.CompareTag("GrowthPod"))
+        {
+            Grow(other.GetComponent<GrowthPod>().GrowthAmount);
+            Destroy(other.gameObject);
+            Debug.Log($"growthpod touched");
+        }
+    }
 
 }
