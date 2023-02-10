@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timeText;
 
     public GameObject pauseScreen;
+    public GameObject StartScreen;
     public GameObject DeathScreen;
     public GameObject winScreen;
     bool isPaused;
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 0;
+        StartScreen.gameObject.SetActive(true);
         pauseScreen.gameObject.SetActive(false);
         DeathScreen.gameObject.SetActive(false);
         winScreen.gameObject.SetActive(false);
@@ -54,6 +57,11 @@ public class GameManager : MonoBehaviour
         }
 
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            StartGame();
+        }
+
     }
 
     public void PauseGame()
@@ -61,12 +69,14 @@ public class GameManager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0;
         pauseScreen.gameObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
     }
     public void ResumeGame()
     {
         isPaused = false;
         Time.timeScale = 1;
         pauseScreen.gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
 
@@ -90,6 +100,14 @@ public class GameManager : MonoBehaviour
         winScreen.gameObject.SetActive(true);
         
 
+    }
+
+    public void StartGame()
+    {
+        Time.timeScale = 1;
+        StartScreen.gameObject.SetActive(false);
+        StopWatch.instance.StartStopWatch();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
 }

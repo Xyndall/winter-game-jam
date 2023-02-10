@@ -61,8 +61,8 @@ public class Movement : MonoBehaviour
 
         jumpHeight += 0.2f;
         newJumpHeight = jumpHeight;
-        CharacterSize += amount;
-        baseCharacterSize += amount;
+        CharacterSize += 1;
+        baseCharacterSize += 1;
         MaxCaharcterSize = baseCharacterSize;
         gameObject.transform.localScale += new Vector3(amount,amount,amount);
         newCharacterSize += new Vector3(amount, amount, amount);
