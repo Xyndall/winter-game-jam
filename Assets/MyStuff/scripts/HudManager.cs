@@ -16,8 +16,8 @@ public class HudManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        sizeText.text = "Current Size: " + Movement.CharacterSize;
+        string vOut = Movement.CharacterSize.ToString();
+        sizeText.text = "Current Size: " + vOut;
 
     }
 }

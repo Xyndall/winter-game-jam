@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Movement : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class Movement : MonoBehaviour
     public Animator animator;
 
     Vector3 DefaultCharacterSize = new Vector3(1,1,1);
+    Vector3 newCharacterSize = new Vector3(1, 1, 1);
     public static float CharacterSize = 1;
+    
 
     public float speed = 12;
     public float runSpeed = 20;
@@ -27,7 +30,11 @@ public class Movement : MonoBehaviour
     public LayerMask GroundMask;
 
     public bool isGrounded;
-    public float jumpHeight = 2f;
+    float newJumpHeight;
+    float jumpHeight = 1.5f;
+    float DefaultJumpHeight = 1.5f;
+
+    bool isShrunk;
 
     void Start()
     {
@@ -37,20 +44,40 @@ public class Movement : MonoBehaviour
 
     void Grow(float amount)
     {
-        fpsCamera.transform.position += new Vector3(0, 0, -0.02f);
+
+        jumpHeight += 0.1f;
+        newJumpHeight = jumpHeight;
         CharacterSize += amount;
         gameObject.transform.localScale += new Vector3(amount,amount,amount);
+        newCharacterSize += new Vector3(amount, amount, amount);
     }
 
-    void Shrink(){
+    void Shrink()
+    {
+        isShrunk = true;
+        jumpHeight = DefaultJumpHeight;
+        gameObject.transform.localScale = DefaultCharacterSize;
 
+    }
+
+    void UnShrink()
+    {
+        isShrunk = false;
+        jumpHeight = newJumpHeight;
+        gameObject.transform.localScale = newCharacterSize;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        
+        if (Input.GetKeyDown(KeyCode.E) && isShrunk == false)
+        {
+            Shrink();
+        }
+        if (Input.GetKeyDown(KeyCode.R) && isShrunk == true)
+        {
+            UnShrink();
+        }
 
         fpsCamera.GetComponentInChildren<Camera>().fieldOfView = 80;
 
@@ -123,6 +150,7 @@ public class Movement : MonoBehaviour
             Destroy(other.gameObject);
             Debug.Log($"growthpod touched");
         }
+
     }
 
 }

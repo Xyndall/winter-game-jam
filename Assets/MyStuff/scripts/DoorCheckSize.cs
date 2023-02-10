@@ -22,7 +22,7 @@ public class DoorCheckSize : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        doorText.text = "Size Needed: " + DoorSize;
+        doorText.text = "SIZE NEEDED: " + DoorSize;
 
     }
 
