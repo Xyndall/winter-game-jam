@@ -5,6 +5,15 @@ using TMPro;
 
 public class Movement : MonoBehaviour
 {
+    #region singleton
+    public static Movement instance;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
+    #endregion
+
     public GameObject fpsCamera = null;
 
     public CharacterController controller;
@@ -13,7 +22,7 @@ public class Movement : MonoBehaviour
     Vector3 DefaultCharacterSize = new Vector3(1,1,1);
     Vector3 newCharacterSize = new Vector3(1, 1, 1);
     public static float CharacterSize = 1;
-    float MaxCaharcterSize;
+    public float MaxCaharcterSize;
     float defCaharcterSize = 1;
     float baseCharacterSize = 1;
     
@@ -50,7 +59,7 @@ public class Movement : MonoBehaviour
     void Grow(float amount)
     {
 
-        jumpHeight += 0.1f;
+        jumpHeight += 0.2f;
         newJumpHeight = jumpHeight;
         CharacterSize += amount;
         baseCharacterSize += amount;
@@ -151,7 +160,14 @@ public class Movement : MonoBehaviour
             Instantiate(newCamera, transform.position, transform.rotation);
             GameManager.instance.ShowDeathScreen();
         }
-
+        if (other.CompareTag("Win"))
+        {
+            GameManager.instance.ShowWinScreen();
+        }
+        if (other.CompareTag("Respawn"))
+        {
+            transform.position = new Vector3(0, 0, -180);
+        }
     }
 
     private void OnDrawGizmosSelected()

@@ -9,24 +9,18 @@ public class BulletTravel : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(DestroyBullet());
+        
+        Destroy(gameObject, 10);
     }
 
     // Update is called once per frame
     void Update()
     {
-        while(travel)
             transform.Translate(userDirection * 5 * Time.deltaTime);
 
 
     }
-    IEnumerator DestroyBullet()
-    {
-        travel = true;
-        yield return new WaitForSeconds(10);
-        travel = false;
-        Destroy(gameObject);
 
-    }
+    
 
 }

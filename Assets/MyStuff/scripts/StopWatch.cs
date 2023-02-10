@@ -17,7 +17,7 @@ public class StopWatch : MonoBehaviour
 
 
     bool stopWatchActive = false;
-    float CurrentTime;
+    public float CurrentTime;
     public TextMeshProUGUI currentTimeText;
 
 

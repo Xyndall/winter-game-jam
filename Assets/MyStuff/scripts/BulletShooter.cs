@@ -9,7 +9,7 @@ public class BulletShooter : MonoBehaviour
 
     public float fireRate = 0.5F;
     private float nextFire = 0.0F;
-
+    public float bulletRoation = 180;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +23,7 @@ public class BulletShooter : MonoBehaviour
         if(Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
-            GameObject clone = Instantiate(bullet, bulletSpawn.position, Quaternion.Euler(0,180,0));
+            GameObject clone = Instantiate(bullet, bulletSpawn.position, Quaternion.Euler(0,bulletRoation,0));
         }
         
 

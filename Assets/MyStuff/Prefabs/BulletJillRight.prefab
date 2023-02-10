@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -3156789921928255725}
   - component: {fileID: 428996487112436069}
   m_Layer: 0
-  m_Name: BulletJill
+  m_Name: BulletJillRight
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

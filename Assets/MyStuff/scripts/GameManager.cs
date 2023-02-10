@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,8 +15,12 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public TextMeshProUGUI sizeText;
+    public TextMeshProUGUI timeText;
+
     public GameObject pauseScreen;
     public GameObject DeathScreen;
+    public GameObject winScreen;
     bool isPaused;
 
     // Start is called before the first frame update
@@ -22,6 +28,7 @@ public class GameManager : MonoBehaviour
     {
         pauseScreen.gameObject.SetActive(false);
         DeathScreen.gameObject.SetActive(false);
+        winScreen.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -65,8 +72,24 @@ public class GameManager : MonoBehaviour
 
     public void ShowDeathScreen()
     {
+        sizeText.text = "SIZE: " + Movement.instance.MaxCaharcterSize.ToString();
+        Cursor.lockState = CursorLockMode.None;
         DeathScreen.gameObject.SetActive(true);
         Time.timeScale = 0;
+
+    }
+
+    public void ShowWinScreen()
+    {
+        TimeSpan time = TimeSpan.FromSeconds(StopWatch.instance.CurrentTime);
+        timeText.text = time.ToString(@"mm\:ss\:ff");
+
+        sizeText.text = "SIZE: " + Movement.instance.MaxCaharcterSize.ToString();
+
+        Cursor.lockState = CursorLockMode.None;
+        winScreen.gameObject.SetActive(true);
+        
+
     }
 
 }
