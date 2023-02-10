@@ -8,7 +8,7 @@ public class Movement : MonoBehaviour
     public GameObject fpsCamera = null;
 
     public CharacterController controller;
-    public Animator animator;
+    public GameObject newCamera;
 
     Vector3 DefaultCharacterSize = new Vector3(1,1,1);
     Vector3 newCharacterSize = new Vector3(1, 1, 1);
@@ -144,6 +144,12 @@ public class Movement : MonoBehaviour
             Grow(other.GetComponent<GrowthPod>().GrowthAmount);
             Destroy(other.gameObject);
             Debug.Log($"growthpod touched");
+        }
+        if (other.CompareTag("Bullet"))
+        {
+            Destroy(gameObject);
+            Instantiate(newCamera, transform.position, transform.rotation);
+            GameManager.instance.ShowDeathScreen();
         }
 
     }

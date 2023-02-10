@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    #region singleton
+    public static GameManager instance;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
+    #endregion
+
     public GameObject pauseScreen;
+    public GameObject DeathScreen;
     bool isPaused;
 
     // Start is called before the first frame update
     void Start()
     {
         pauseScreen.gameObject.SetActive(false);
+        DeathScreen.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -51,5 +62,11 @@ public class GameManager : MonoBehaviour
         pauseScreen.gameObject.SetActive(false);
     }
 
+
+    public void ShowDeathScreen()
+    {
+        DeathScreen.gameObject.SetActive(true);
+        Time.timeScale = 0;
+    }
 
 }

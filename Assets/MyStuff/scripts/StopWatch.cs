@@ -6,6 +6,15 @@ using System;
 
 public class StopWatch : MonoBehaviour
 {
+    #region singleton
+    public static StopWatch instance;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
+    #endregion
+
 
     bool stopWatchActive = false;
     float CurrentTime;
