@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 725049280208485522}
   - component: {fileID: 3308759463102138456}
   - component: {fileID: 7350455202431387844}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LongPlat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
 --- !u!33 &725049280208485522
 MeshFilter:

@@ -13,6 +13,9 @@ public class Movement : MonoBehaviour
     Vector3 DefaultCharacterSize = new Vector3(1,1,1);
     Vector3 newCharacterSize = new Vector3(1, 1, 1);
     public static float CharacterSize = 1;
+    float MaxCaharcterSize;
+    float defCaharcterSize = 1;
+    float baseCharacterSize = 1;
     
 
     public float speed = 12;
@@ -26,20 +29,22 @@ public class Movement : MonoBehaviour
 
 
     public Transform GroundCheck;
-    public float GroundDistance = 0.4f;
+    public float GroundDistance = 0.8f;
     public LayerMask GroundMask;
 
     public bool isGrounded;
     float newJumpHeight;
     float jumpHeight = 1.5f;
     float DefaultJumpHeight = 1.5f;
+    bool jumped;
 
     bool isShrunk;
 
     void Start()
     {
+        defCaharcterSize = 1;
+        CharacterSize = 1;
         gameObject.transform.localScale = DefaultCharacterSize;
-        animator.GetComponent<Animator>();
     }
 
     void Grow(float amount)
@@ -48,6 +53,8 @@ public class Movement : MonoBehaviour
         jumpHeight += 0.1f;
         newJumpHeight = jumpHeight;
         CharacterSize += amount;
+        baseCharacterSize += amount;
+        MaxCaharcterSize = baseCharacterSize;
         gameObject.transform.localScale += new Vector3(amount,amount,amount);
         newCharacterSize += new Vector3(amount, amount, amount);
     }
@@ -57,6 +64,7 @@ public class Movement : MonoBehaviour
         isShrunk = true;
         jumpHeight = DefaultJumpHeight;
         gameObject.transform.localScale = DefaultCharacterSize;
+        CharacterSize = defCaharcterSize;
 
     }
 
@@ -65,6 +73,7 @@ public class Movement : MonoBehaviour
         isShrunk = false;
         jumpHeight = newJumpHeight;
         gameObject.transform.localScale = newCharacterSize;
+        CharacterSize = MaxCaharcterSize;
     }
 
     // Update is called once per frame
@@ -83,8 +92,8 @@ public class Movement : MonoBehaviour
 
         isGrounded = Physics.CheckSphere(GroundCheck.position, GroundDistance, GroundMask);
 
-        if(isGrounded) 
-            animator.SetBool("Grounded", true);
+        if (isGrounded)
+            jumped = false;
 
         if (isGrounded && velocity.y < 0)
         {
@@ -105,40 +114,26 @@ public class Movement : MonoBehaviour
         controller.Move(move * speed * Time.deltaTime);
 
         controller.Move(velocity * Time.deltaTime);
-
-        if (z > 0 || z < 0)
-        {
-            animator.SetBool("isMoving", true);
-
-        }
-        else
-        {
-            animator.SetBool("isMoving", false);
-        }
         
-        animator.SetFloat("MovingFloat", z);
+        
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !jumped)
         {
+            jumped = true;
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            animator.SetTrigger("Jump");
+            
         }
 
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-
                 
-                animator.SetBool("Sprint", true);
                 fpsCamera.GetComponentInChildren<Camera>().fieldOfView = Mathf.Lerp(80, 85, 1);
                 speed = runSpeed;
   
         }
         else
         {
-            
-            
-            animator.SetBool("Sprint", false);
             speed = normalSpeed;
         }
     }
@@ -151,6 +146,12 @@ public class Movement : MonoBehaviour
             Debug.Log($"growthpod touched");
         }
 
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(GroundCheck.position, GroundDistance);
     }
 
 }

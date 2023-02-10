@@ -13,6 +13,11 @@ public class CameraMovement : MonoBehaviour
     public GameObject Player = null;
     public GameObject fpsCam = null;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     void Update()
     {
         if (Input.GetKey(KeyCode.Escape))

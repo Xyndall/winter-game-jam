@@ -4,37 +4,39 @@ using UnityEngine;
 
 public class MoveingPlatforms : MonoBehaviour
 {
-    [SerializeField] Transform _destination;
-    Vector3 OriginalPos;
-    bool goingToDestination = false;
+    [SerializeField] GameObject[] waypoints;
+    int currentWaypointIndex = 0;
 
-    private void Start()
-    {
-        OriginalPos = transform.position;
-    }
+    [SerializeField] float speed = 2f;
 
     void Update()
     {
-        float Step = 2.5f * Time.deltaTime;
-        
-       
-
-        if(goingToDestination == true)
+        if (Vector3.Distance(transform.position, waypoints[currentWaypointIndex].transform.position) < .1f)
         {
-            
-            transform.position = Vector3.MoveTowards(transform.position, _destination.position, Step);
-        }
-            
-
-        if (Vector3.Distance(transform.position, _destination.position) < 0.001f)
-        {
-            goingToDestination = false;
-            transform.position = Vector3.MoveTowards(_destination.position, transform.position, Step);
+            currentWaypointIndex++;
+            if (currentWaypointIndex >= waypoints.Length)
+            {
+                currentWaypointIndex = 0;
+            }
         }
 
-        if(Vector3.Distance(transform.position, OriginalPos) < 0.001f)
-        {
-            goingToDestination = true;
-        }
+        transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].transform.position, speed * Time.deltaTime);
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        collision.gameObject.transform.SetParent(transform);
+    //    }
+    //}
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        collision.gameObject.transform.SetParent(null);
+    //    }
+    //}
+
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6634734290795773677}
   - component: {fileID: 8932811686309317159}
   - component: {fileID: 6456045059448792441}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SteelCargo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
 --- !u!33 &6634734290795773677
 MeshFilter:
