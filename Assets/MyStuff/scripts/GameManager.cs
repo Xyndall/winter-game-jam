@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     public GameObject winScreen;
     bool isPaused;
 
+    public AudioSource aSource;
+    public AudioClip aClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,8 +105,14 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void PlaySound()
+    {
+        aSource.PlayOneShot(aClip);
+    }
+
     public void StartGame()
     {
+        PlaySound();
         Time.timeScale = 1;
         StartScreen.gameObject.SetActive(false);
         StopWatch.instance.StartStopWatch();

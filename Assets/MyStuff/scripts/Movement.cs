@@ -19,13 +19,13 @@ public class Movement : MonoBehaviour
     public CharacterController controller;
     public GameObject newCamera;
 
-    Vector3 DefaultCharacterSize = new Vector3(1,1,1);
+    Vector3 DefaultCharacterSize = new Vector3(1, 1, 1);
     Vector3 newCharacterSize = new Vector3(1, 1, 1);
     public static float CharacterSize = 1;
     public float MaxCaharcterSize;
     float defCaharcterSize = 1;
     float baseCharacterSize = 1;
-    
+
 
     public float speed = 12;
     public float runSpeed = 20;
@@ -49,8 +49,12 @@ public class Movement : MonoBehaviour
 
     bool isShrunk;
 
+    public AudioSource aSource;
+    public AudioClip[] aClip;
+
     void Start()
     {
+        aSource.GetComponent<AudioSource>();
         defCaharcterSize = 1;
         CharacterSize = 1;
         gameObject.transform.localScale = DefaultCharacterSize;
@@ -70,6 +74,7 @@ public class Movement : MonoBehaviour
 
     void Shrink()
     {
+        PlaySounds(aClip[2]);
         isShrunk = true;
         jumpHeight = DefaultJumpHeight;
         gameObject.transform.localScale = DefaultCharacterSize;
@@ -79,6 +84,7 @@ public class Movement : MonoBehaviour
 
     void UnShrink()
     {
+        PlaySounds(aClip[3]);
         isShrunk = false;
         jumpHeight = newJumpHeight;
         gameObject.transform.localScale = newCharacterSize;
@@ -128,8 +134,10 @@ public class Movement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !jumped)
         {
+            PlaySounds(aClip[1]);
             jumped = true;
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            
             
         }
 
@@ -147,9 +155,15 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public void PlaySounds(AudioClip clip)
+    {
+        aSource.PlayOneShot(clip);
+    }
+
     private void OnTriggerEnter(Collider other) {
         if(other.CompareTag("GrowthPod"))
         {
+            PlaySounds(aClip[0]);
             Grow(other.GetComponent<GrowthPod>().GrowthAmount);
             Destroy(other.gameObject);
             Debug.Log($"growthpod touched");

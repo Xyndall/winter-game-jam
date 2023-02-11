@@ -39,25 +39,6 @@ public class CameraMovement : MonoBehaviour
         mouseSensitivity = value * 100;
     }
 
-    void OnGUI()
-    {
-        //Press this button to lock the Cursor
-        if (GUI.Button(new Rect(0, 0, 100, 50), "Lock Cursor"))
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-
-        //Press this button to confine the Cursor within the screen
-        if (GUI.Button(new Rect(125, 0, 100, 50), "Confine Cursor"))
-        {
-            Cursor.lockState = CursorLockMode.Confined;
-        }
-
-        //Press this button to confine the Cursor within the screen
-        if (GUI.Button(new Rect(250, 0, 150, 50), "Unlock cursor: Escape"))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-    }
+    
 
 }
